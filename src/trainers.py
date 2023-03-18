@@ -1,14 +1,16 @@
-from sklearn.metrics import accuracy_score
+import importlib
+import os
+import pkgutil
+
 import joblib
 import numpy as np
-import pkgutil
-import os
-import importlib
+from sklearn.metrics import accuracy_score
+
 
 class Trainer:
     def __init__(self, model) -> None:
         """Initializes a Trainer object with the given parameters.
-        
+
         Parameters:
         model : str
             The name of the machine learning model to be trained.
@@ -17,20 +19,26 @@ class Trainer:
 
     def __get_model(self) -> None:
         """
-        Private method that sets the self.model attribute to an instance of the specified machine learning model.
-        Reads the available models from a specified directory, imports the module corresponding to the specified model,
-        and creates an instance of the model.
+        Private method that sets the self.model attribute to an instance of the
+        specified machine learning model. Reads the available models from a
+        specified directory, imports the module corresponding to the
+        specified model, and creates an instance of the model.
         """
         src_path = os.path.dirname(os.path.abspath(__file__))
         path = os.path.join(src_path, "models")
-        models = [model for _, model, _ in pkgutil.iter_modules([path]) if model != "base"]
+        models = [
+            model
+            for _, model, _ in pkgutil.iter_modules([path])
+            if model != "base"  # noqa: E501
+        ]
         if self.model_name not in models:
             raise ValueError(f"{self.model_name} is not supported")
         model_cls = importlib.import_module(f"models.{self.model_name}")
-        self.model = getattr(model_cls, self.model_name.title().replace("_", ""))()
+        self.model = getattr(
+            model_cls, self.model_name.title().replace("_", "")
+        )()  # noqa: E501
 
     def train(self, X, y) -> None:
-        
         """
         Trains the specified machine learning model on the training data.
 
@@ -45,8 +53,9 @@ class Trainer:
 
     def predict(self, X) -> np.ndarray:
         """
-        Uses the trained model to make predictions on the prediction data and returns the predicted labels.
-        
+        Uses the trained model to make predictions on the prediction data
+        and returns the predicted labels.
+
         Parameters:
         X : numpy.ndarray
             The feature matrix of the prediction dataset.
@@ -58,8 +67,9 @@ class Trainer:
 
     def evaluate(self, X, y) -> float:
         """
-        Evaluates the performance of the trained model on the prediction data using accuracy score.
-        
+        Evaluates the performance of the trained model on the
+        prediction data using accuracy score.
+
         Parameters:
         X : numpy.ndarray
             The feature matrix of the evaluation dataset.
@@ -68,14 +78,14 @@ class Trainer:
         Returns:
         float
             The accuracy score of the model on the test data.
-        """        
+        """
         pred = self.predict(X)
         return accuracy_score(pred, y)
 
     def save(self, path, model_name) -> None:
         """
         Saves the trained model to a specified path.
-        
+
         Parameters:
         path : str
             The path to save the model.

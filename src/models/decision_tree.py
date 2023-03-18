@@ -1,5 +1,7 @@
 from sklearn.tree import DecisionTreeClassifier
+
 from .base import Model
+
 
 class DecisionTree(Model):
     """
@@ -14,7 +16,7 @@ class DecisionTree(Model):
     __name__()
         Returns the name of the model.
     """
-    
+
     def __init__(self, **kwargs) -> None:
         """
         Constructs a new DecisionTree object.
@@ -22,10 +24,10 @@ class DecisionTree(Model):
         Parameters
         ----------
         **kwargs : dict
-            Additional keyword arguments to pass to the DecisionTreeClassifier constructor.
+            Additional arguments to the DecisionTreeClassifier constructor.
         """
         self.model = DecisionTreeClassifier(**kwargs)
-    
+
     def fit(self, X, y):
         """
         Fit the model according to the given training data.
@@ -43,7 +45,7 @@ class DecisionTree(Model):
             Returns the instance itself.
         """
         self.model.fit(X, y)
-    
+
     def predict(self, X):
         """
         Predict class for X.
@@ -59,7 +61,7 @@ class DecisionTree(Model):
             The predicted classes.
         """
         return self.model.predict(X)
-    
+
     def __name__(self):
         """
         Returns the name of the model.

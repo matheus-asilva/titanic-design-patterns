@@ -4,7 +4,7 @@ run:
 setup:
 	pip install -r requirements.txt
 
-clear:
+clear-cache:
 	rm -rf src/__pycache__
 
 style:
@@ -12,10 +12,13 @@ style:
 	flake8 src
 	python -m isort src
 
-venv:
-	python3 -m venv .venv
-	source .venv/bin/activate
-	pip install -r requirements.txt
+create-venv:
+	python -m venv .venv
+	# python -m pip install --upgrade pip
+	# pip install -r requirements.txt
+
+clear-venv:
+	rm -rf .venv
 
 help:
 	@echo "Commands:"

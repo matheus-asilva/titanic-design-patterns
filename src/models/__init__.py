@@ -1,4 +1,4 @@
-from .base import Model
-from .random_forest import RandomForest
-from .decision_tree import DecisionTree
-from .xgboost import Xgboost
+from .base import Model  # noqa: F401
+from .decision_tree import DecisionTree  # noqa: F401
+from .random_forest import RandomForest  # noqa: F401
+from .xgboost import Xgboost  # noqa: F401

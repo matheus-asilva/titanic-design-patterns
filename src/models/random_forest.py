@@ -1,5 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
+
 from .base import Model
+
 
 class RandomForest(Model):
     """
@@ -14,7 +16,7 @@ class RandomForest(Model):
     __name__()
         Returns the name of the model.
     """
-    
+
     def __init__(self, **kwargs) -> None:
         """
         Constructs a new RandomForest object.
@@ -22,10 +24,10 @@ class RandomForest(Model):
         Parameters
         ----------
         **kwargs : dict
-            Additional keyword arguments to pass to the DecisionTreeClassifier constructor.
+            Additional arguments to the RandomForestClassifier constructor.
         """
         self.model = RandomForestClassifier(**kwargs)
-    
+
     def fit(self, X, y):
         """
         Fit the model according to the given training data.
@@ -39,11 +41,11 @@ class RandomForest(Model):
 
         Returns
         -------
-        self : DecisionTree
+        self : RandomForest
             Returns the instance itself.
         """
         self.model.fit(X, y)
-    
+
     def predict(self, X):
         """
         Predict class for X.
@@ -59,7 +61,7 @@ class RandomForest(Model):
             The predicted classes.
         """
         return self.model.predict(X)
-    
+
     def __name__(self):
         """
         Returns the name of the model.

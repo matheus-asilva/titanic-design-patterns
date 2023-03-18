@@ -1,8 +1,9 @@
 import argparse
+
 from loaders import CSVLoader
-from trainers import Trainer
 from processor import Processor
 from sampler import Sampler
+from trainers import Trainer
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=str, default="decision_tree")

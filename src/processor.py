@@ -21,7 +21,7 @@ class Processor:
         Returns:
             str: extracted title
         """
-        return s.extract(" ([A-Za-z]+)\.", expand=False)
+        return s.extract(" ([A-Za-z]+)\.", expand=False)  # noqa: W605
 
     def __replace_rare_titles(self, s: pd.Series) -> pd.Series:
         """
@@ -89,14 +89,14 @@ class Processor:
 
     def _compute_family_size(self) -> None:
         """
-        Compute a new feature called "FamilySize" by adding "SibSp" and "Parch".
+        Compute a new feature called "FamilySize" by adding "SibSp" and "Parch"
         """
         # new feature called "FamilySize" by adding "SibSp" and "Parch"
         self.data["FamilySize"] = self.data["SibSp"] + self.data["Parch"] + 1
 
     def _compute_is_alone(self) -> None:
         """
-        Compute a new feature called "IsAlone" by checking if "FamilySize" is 0.
+        Compute a new feature called "IsAlone" by checking if "FamilySize" is 0
         """
         # new feature called "IsAlone" by checking if "FamilySize" is 0
         self.data["IsAlone"] = 0
@@ -141,7 +141,7 @@ class Processor:
         self.data["FareBand"] = self.data["FareBand"].map(fare_mapping)
         # fill missing values in "FareBand" with 0
         self.data["FareBand"] = self.data["FareBand"].fillna(0)
-    
+
     def _compute_sex(self) -> None:
         sex_mapping = {"male": 1, "female": 0}
         self.data["Sex"] = self.data["Sex"].map(sex_mapping)
