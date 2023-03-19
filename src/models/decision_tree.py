@@ -1,3 +1,4 @@
+from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 
 from .base import Model
@@ -27,6 +28,11 @@ class DecisionTree(Model):
             Additional arguments to the DecisionTreeClassifier constructor.
         """
         self.model = DecisionTreeClassifier(**kwargs)
+        self.params_grid = {
+            "max_depth": [2, 3, 5, 10, 20],
+            "min_samples_leaf": [5, 10, 20, 50, 100],
+            "criterion": ["gini", "entropy"],
+        }
 
     def fit(self, X, y):
         """
@@ -44,7 +50,10 @@ class DecisionTree(Model):
         self : DecisionTree
             Returns the instance itself.
         """
-        self.model.fit(X, y)
+        self.X = X
+        self.y = y
+
+        self.model.fit(self.X, self.y)
 
     def predict(self, X):
         """
@@ -61,6 +70,16 @@ class DecisionTree(Model):
             The predicted classes.
         """
         return self.model.predict(X)
+
+    def optimize(self):
+        """
+        Optimizes the hyperparameters of the model.
+        """
+        tuned_model = GridSearchCV(
+            self.model, param_grid=self.params_grid, cv=5, scoring="accuracy"
+        )
+        tuned_model.fit(self.X, self.y)
+        self.model = tuned_model.best_estimator_
 
     def __name__(self):
         """

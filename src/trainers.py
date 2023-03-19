@@ -65,6 +65,10 @@ class Trainer:
         """
         return self.model.predict(X)
 
+    def optimize(self) -> None:
+        """Optimizes the hyperparameters of the model."""
+        self.model.optimize()
+
     def evaluate(self, X, y) -> float:
         """
         Evaluates the performance of the trained model on the

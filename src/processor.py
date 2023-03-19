@@ -121,8 +121,6 @@ class Processor:
         self.data["Title"] = self.__replace_mrs_variants(self.data["Title"])
         # map titles to numbers
         self.data["Title"] = self.__title_mapping(self.data["Title"])
-        # fill missing values in "Title" with 0
-        self.data["Title"] = self.data["Title"].fillna(0)
 
     def _compute_age_band(self) -> None:
         # create a new feature called "AgeBand" by binning "Age"
@@ -130,8 +128,6 @@ class Processor:
         # map "AgeBand" to numbers
         age_mapping = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5}
         self.data["AgeBand"] = self.data["AgeBand"].map(age_mapping)
-        # fill missing values in "AgeBand" with 0
-        self.data["AgeBand"] = self.data["AgeBand"].fillna(0)
 
     def _compute_fare_band(self) -> None:
         # create a new feature called "FareBand" by binning "Fare"
@@ -139,14 +135,12 @@ class Processor:
         # map "FareBand" to numbers
         fare_mapping = {1: 1, 2: 2, 3: 3, 4: 4}
         self.data["FareBand"] = self.data["FareBand"].map(fare_mapping)
-        # fill missing values in "FareBand" with 0
-        self.data["FareBand"] = self.data["FareBand"].fillna(0)
 
     def _compute_sex(self) -> None:
         sex_mapping = {"male": 1, "female": 0}
         self.data["Sex"] = self.data["Sex"].map(sex_mapping)
 
-    def process(self) -> pd.DataFrame:
+    def process(self, handle_missing=False) -> pd.DataFrame:
         # compute "Sex"
         self._compute_sex()
         # compute "FamilySize"
@@ -175,4 +169,8 @@ class Processor:
             ],
             axis=1,
         )
+
+        if handle_missing:
+            self.data.fillna(0, inplace=True)
+
         return self.data

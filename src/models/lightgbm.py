@@ -1,12 +1,12 @@
-from sklearn.ensemble import RandomForestClassifier
+from lightgbm import LGBMClassifier
 from sklearn.model_selection import GridSearchCV
 
 from .base import Model
 
 
-class RandomForest(Model):
+class Lightgbm(Model):
     """
-    A class that represents a random forest model.
+    A class that represents a lightgbm model.
 
     ...
 
@@ -20,21 +20,19 @@ class RandomForest(Model):
 
     def __init__(self, **kwargs) -> None:
         """
-        Constructs a new RandomForest object.
+        Constructs a new LightGBM object.
 
         Parameters
         ----------
         **kwargs : dict
-            Additional arguments to the RandomForestClassifier constructor.
+            Additional keyword to the XGBClassifier constructor.
         """
-        self.model = RandomForestClassifier(**kwargs)
+        self.model = LGBMClassifier(**kwargs)
         self.params_grid = {
-            "n_estimators": [100, 200, 300],
-            "criterion": ["gini", "entropy"],
-            "max_depth": [5, 10, 15],
-            "min_samples_split": [2, 5, 10],
-            "min_samples_leaf": [1, 2, 4],
-            "bootstrap": [True, False],
+            "num_leaves": [25, 50, 75],
+            "learning_rate": [0.05, 0.1, 0.2],
+            "max_depth": [5, 10],
+            "n_estimators": [100, 200],
         }
 
     def fit(self, X, y):
@@ -50,7 +48,7 @@ class RandomForest(Model):
 
         Returns
         -------
-        self : RandomForest
+        self : Lightgbm
             Returns the instance itself.
         """
         self.X = X
@@ -92,4 +90,4 @@ class RandomForest(Model):
         str
             The name of the model.
         """
-        return "random_forest"
+        return "lightgbm"

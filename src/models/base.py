@@ -29,3 +29,8 @@ class Model(ABC):
             The predicted target vector.
         """
         pass
+
+    @abstractmethod
+    def optimize(self):
+        """Optimizes the hyperparameters of the model."""
+        pass
