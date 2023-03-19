@@ -1,10 +1,10 @@
 from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
 
-from .base import Model
+from model.base import Model
 
 
-class DecisionTree(Model):
+class DecisionTree(Model):  # pragma: no cover
     """
     A class that represents a decision tree model.
 

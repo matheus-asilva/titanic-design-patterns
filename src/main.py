@@ -6,7 +6,7 @@ from sampler import Sampler
 from trainers import Trainer
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=str, default="decision_tree")
+parser.add_argument("--model", type=str)
 parser.add_argument("--path", type=str, default="./models")
 parser.add_argument("--handle_missing", action="store_true")
 parser.add_argument("--optimize", action="store_true")

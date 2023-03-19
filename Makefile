@@ -1,11 +1,26 @@
+help:
+	@echo "Commands:"
+	@echo "run           : runs the program."
+	@echo "setup         : installs all the dependencies."
+	@echo "clear-cache   : clears all the cache files."
+	@echo "clear-venv    : clears all virtual environmentß files."
+	@echo "style         : executes style formatting."
+	@echo "create-venv   : creates a virtual environment."
+	@echo "test          : runs coverage tests."
+
 run:
-	python src/main.py
+	python src/main.py --model decision_tree
 
 setup:
 	pip install -r requirements.txt
 
 clear-cache:
 	rm -rf src/__pycache__
+	rm -rf tests/__pycache__
+	rm -rf tests/.pytest_cache
+	rm -rf .coverage
+	rm -rf src/model/__pycache__
+
 
 style:
 	black src
@@ -23,11 +38,3 @@ clear-venv:
 test:
 	coverage run -m pytest -v
 	coverage report -m
-
-help:
-	@echo "Commands:"
-	@echo "run     : runs the program."
-	@echo "setup   : installs all the dependencies."
-	@echo "clear   : clears all the cache files."
-	@echo "style   : executes style formatting."
-	@echo "venv    : creates a virtual environment."

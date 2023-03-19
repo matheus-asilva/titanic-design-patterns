@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Model(ABC):
+class Model(ABC):  # pragma: no cover
     @abstractmethod
     def fit(self, X, y):
         """

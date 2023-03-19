@@ -32,7 +32,9 @@ class Trainer:
             if model != "base"  # noqa: E501
         ]
         if self.model_name not in models:
-            raise ValueError(f"{self.model_name} is not supported")
+            raise ValueError(
+                f"{self.model_name} is not supported"
+            )  # pragma: no cover # noqa: E501
         model_cls = importlib.import_module(f"model.{self.model_name}")
         self.model = getattr(
             model_cls, self.model_name.title().replace("_", "")

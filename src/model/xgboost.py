@@ -1,5 +1,5 @@
-from xgboost import XGBClassifier
 from sklearn.model_selection import GridSearchCV
+from xgboost import XGBClassifier
 
 from .base import Model
 
@@ -70,7 +70,7 @@ class Xgboost(Model):
             The predicted classes.
         """
         return self.model.predict(X)
-    
+
     def optimize(self):
         """
         Optimizes the hyperparameters of the model.
