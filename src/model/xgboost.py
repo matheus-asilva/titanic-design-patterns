@@ -1,4 +1,5 @@
 from xgboost import XGBClassifier
+from sklearn.model_selection import GridSearchCV
 
 from .base import Model
 
@@ -27,6 +28,12 @@ class Xgboost(Model):
             Additional keyword to the XGBClassifier constructor.
         """
         self.model = XGBClassifier(**kwargs)
+        self.params_grid = {
+            "num_leaves": [25, 50, 75],
+            "learning_rate": [0.05, 0.1, 0.2],
+            "max_depth": [5, 10],
+            "n_estimators": [100, 200],
+        }
 
     def fit(self, X, y):
         """
@@ -44,7 +51,9 @@ class Xgboost(Model):
         self : Xgboost
             Returns the instance itself.
         """
-        self.model.fit(X, y)
+        self.X = X
+        self.y = y
+        self.model.fit(self.X, self.y)
 
     def predict(self, X):
         """
@@ -61,6 +70,16 @@ class Xgboost(Model):
             The predicted classes.
         """
         return self.model.predict(X)
+    
+    def optimize(self):
+        """
+        Optimizes the hyperparameters of the model.
+        """
+        tuned_model = GridSearchCV(
+            self.model, param_grid=self.params_grid, cv=5, scoring="accuracy"
+        )
+        tuned_model.fit(self.X, self.y)
+        self.model = tuned_model.best_estimator_
 
     def __name__(self):
         """

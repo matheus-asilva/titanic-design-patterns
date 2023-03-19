@@ -20,6 +20,10 @@ create-venv:
 clear-venv:
 	rm -rf .venv
 
+test:
+	coverage run -m pytest -v
+	coverage report -m
+
 help:
 	@echo "Commands:"
 	@echo "run     : runs the program."

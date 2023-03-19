@@ -124,23 +124,37 @@ class Processor:
 
     def _compute_age_band(self) -> None:
         # create a new feature called "AgeBand" by binning "Age"
-        self.data["AgeBand"] = pd.cut(self.data["Age"], 5)
+        bins = [0, 2, 4, 13, 20, 110]
+        labels = ["Infant", "Toddler", "Kid", "Teen", "Adult"]
+        self.data["AgeBand"] = pd.cut(
+            self.data["Age"], bins=bins, labels=labels, right=False
+        )
         # map "AgeBand" to numbers
-        age_mapping = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5}
+        age_mapping = {
+            "Infant": 1,
+            "Toddler": 2,
+            "Kid": 3,
+            "Teen": 4,
+            "Adult": 5,
+        }  # noqa: E501
         self.data["AgeBand"] = self.data["AgeBand"].map(age_mapping)
+        self.data["AgeBand"] = self.data["AgeBand"].astype(float)
 
     def _compute_fare_band(self) -> None:
         # create a new feature called "FareBand" by binning "Fare"
-        self.data["FareBand"] = pd.qcut(self.data["Fare"], 4)
-        # map "FareBand" to numbers
-        fare_mapping = {1: 1, 2: 2, 3: 3, 4: 4}
-        self.data["FareBand"] = self.data["FareBand"].map(fare_mapping)
+        labels = [0, 1, 2, 3]
+        self.data["FareBand"] = pd.qcut(
+            self.data["Fare"], 4, labels=labels, duplicates="drop"
+        )
+        self.data["FareBand"] = self.data["FareBand"].astype(float)
 
     def _compute_sex(self) -> None:
         sex_mapping = {"male": 1, "female": 0}
         self.data["Sex"] = self.data["Sex"].map(sex_mapping)
 
-    def process(self, handle_missing=False) -> pd.DataFrame:
+    def process(
+        self, handle_missing=False
+    ) -> pd.DataFrame:  # pragma: no cover # noqa: E501
         # compute "Sex"
         self._compute_sex()
         # compute "FamilySize"

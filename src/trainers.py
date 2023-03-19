@@ -25,7 +25,7 @@ class Trainer:
         specified model, and creates an instance of the model.
         """
         src_path = os.path.dirname(os.path.abspath(__file__))
-        path = os.path.join(src_path, "models")
+        path = os.path.join(src_path, "model")
         models = [
             model
             for _, model, _ in pkgutil.iter_modules([path])
@@ -33,7 +33,7 @@ class Trainer:
         ]
         if self.model_name not in models:
             raise ValueError(f"{self.model_name} is not supported")
-        model_cls = importlib.import_module(f"models.{self.model_name}")
+        model_cls = importlib.import_module(f"model.{self.model_name}")
         self.model = getattr(
             model_cls, self.model_name.title().replace("_", "")
         )()  # noqa: E501
