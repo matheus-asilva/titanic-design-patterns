@@ -1,7 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
-from .base import Model
+from model.base import Model
 
 
 class RandomForest(Model):
@@ -36,6 +36,7 @@ class RandomForest(Model):
             "min_samples_leaf": [1, 2, 4],
             "bootstrap": [True, False],
         }
+        self._handles_missing = False
 
     def fit(self, X, y):
         """

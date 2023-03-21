@@ -153,7 +153,7 @@ class Processor:
         self.data["Sex"] = self.data["Sex"].map(sex_mapping)
 
     def process(
-        self, handle_missing=False
+        self
     ) -> pd.DataFrame:  # pragma: no cover # noqa: E501
         # compute "Sex"
         self._compute_sex()
@@ -183,8 +183,5 @@ class Processor:
             ],
             axis=1,
         )
-
-        if handle_missing:
-            self.data.fillna(0, inplace=True)
 
         return self.data

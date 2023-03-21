@@ -1,7 +1,7 @@
 from lightgbm import LGBMClassifier
 from sklearn.model_selection import GridSearchCV
 
-from .base import Model
+from model.base import Model
 
 
 class Lightgbm(Model):
@@ -34,6 +34,7 @@ class Lightgbm(Model):
             "max_depth": [5, 10],
             "n_estimators": [100, 200],
         }
+        self._handles_missing = True
 
     def fit(self, X, y):
         """

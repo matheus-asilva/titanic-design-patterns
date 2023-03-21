@@ -14,15 +14,12 @@ args = parser.parse_args()
 
 train = CSVLoader("./data/train.csv").load()
 
-if args.model not in ["xgboost", "lightgbm"]:
-    args.handle_missing = True
-
-X = Processor(train).process(handle_missing=args.handle_missing)
+X = Processor(train).process()
 y = train["Survived"]
 
 X_train, X_test, y_train, y_test = Sampler(X, y).split()
 
-trainer = Trainer(args.model)
+trainer = Trainer(args.model, handle_missing=args.handle_missing)
 trainer.train(X_train, y_train)
 
 if args.optimize:

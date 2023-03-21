@@ -8,14 +8,17 @@ from sklearn.metrics import accuracy_score
 
 
 class Trainer:
-    def __init__(self, model) -> None:
+    def __init__(self, model: str, handle_missing: bool = True) -> None:
         """Initializes a Trainer object with the given parameters.
 
         Parameters:
         model : str
             The name of the machine learning model to be trained.
+        handle_missing : bool
+            Flag to set missing imputation. Fill missing values with 0.
         """
         self.model_name = model
+        self._handles_missing = handle_missing
 
     def __get_model(self) -> None:
         """
@@ -40,6 +43,7 @@ class Trainer:
             model_cls, self.model_name.title().replace("_", "")
         )()  # noqa: E501
 
+
     def train(self, X, y) -> None:
         """
         Trains the specified machine learning model on the training data.
@@ -51,7 +55,20 @@ class Trainer:
                 The label vector of the training dataset.
         """
         self.__get_model()
-        self.model.fit(X, y)
+
+        if not self.model._handles_missing:
+            if not self._handles_missing:
+                raise ValueError(f"{self.model_name} does not fit with missing information. Set '--handle_missing'.")
+            else:
+                self.model._handles_missing = self._handles_missing
+
+        if self.model._handles_missing and not self._handles_missing:
+            self.model._handles_missing = self._handles_missing
+
+        if self.model._handles_missing:
+            self.model.fit(X.fillna(0), y)
+        else:
+            self.model.fit(X, y)
 
     def predict(self, X) -> np.ndarray:
         """
@@ -65,6 +82,8 @@ class Trainer:
         numpy.ndarray
             The predicted labels for the prediction data.
         """
+        if self.model._handles_missing:
+            return self.model.predict(X.fillna(0))
         return self.model.predict(X)
 
     def optimize(self) -> None:
