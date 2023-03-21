@@ -5,17 +5,16 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 
 
 import importlib
+import pandas as pd
 from sklearn.datasets import make_classification
 
 TRAINER = getattr(importlib.import_module("src.trainers"), "Trainer")
-X, y = make_classification(
-    n_samples=500,
-    n_features=2,
-    n_informative=2,
-    n_redundant=0,
-    random_state=2023,
-    shuffle=False
-)
+N_FEATURES = 5
+N_SAMPLES = 500
+X, y = make_classification(n_samples=N_SAMPLES, n_features=N_FEATURES, n_informative=2, random_state=2023, shuffle=False)
+X = pd.DataFrame(X, columns=[f"FEAT{num}" for num in range(1, N_FEATURES + 1)])
+y = pd.Series(y)
+
 
 
 # write your tests here
@@ -65,4 +64,4 @@ def test_predict() -> None:
     trainer = TRAINER("decision_tree")
     trainer._Trainer__get_model()
     trainer.train(X, y)
-    assert trainer.predict([[0.5, 0.7]]) == [1]
+    assert trainer.predict(X).mean() == 0.5

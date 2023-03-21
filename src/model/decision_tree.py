@@ -18,16 +18,16 @@ class DecisionTree(Model):  # pragma: no cover
         Returns the name of the model.
     """
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, model_args: dict = {}) -> None:
         """
         Constructs a new DecisionTree object.
 
         Parameters
         ----------
-        **kwargs : dict
+        model_args : dict
             Additional arguments to the DecisionTreeClassifier constructor.
         """
-        self.model = DecisionTreeClassifier(**kwargs)
+        self.model = DecisionTreeClassifier(**model_args)
         self.params_grid = {
             "max_depth": [2, 3, 5, 10, 20],
             "min_samples_leaf": [5, 10, 20, 50, 100],

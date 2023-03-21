@@ -152,9 +152,7 @@ class Processor:
         sex_mapping = {"male": 1, "female": 0}
         self.data["Sex"] = self.data["Sex"].map(sex_mapping)
 
-    def process(
-        self
-    ) -> pd.DataFrame:  # pragma: no cover # noqa: E501
+    def process(self) -> pd.DataFrame:  # pragma: no cover # noqa: E501
         # compute "Sex"
         self._compute_sex()
         # compute "FamilySize"

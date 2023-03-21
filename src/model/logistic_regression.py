@@ -1,6 +1,6 @@
+from sklearn.linear_model import \
+    LogisticRegression as LogisticRegressionClassifier  # noqa: E501
 from sklearn.model_selection import GridSearchCV
-from sklearn.linear_model import LogisticRegression as LogisticRegressionClassifier
-import numpy as np
 
 from model.base import Model
 
@@ -19,21 +19,20 @@ class LogisticRegression(Model):  # pragma: no cover
         Returns the name of the model.
     """
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, model_args: dict = {}) -> None:
         """
         Constructs a new LogisticRegression object.
 
         Parameters
         ----------
-        **kwargs : dict
+        model_args : dict
             Additional arguments to the LogisticRegression constructor.
         """
-        self.model = LogisticRegressionClassifier(**kwargs)
+        self.model = LogisticRegressionClassifier(**model_args)
         self.params_grid = {
-            'C' : [100, 10, 1.0, 0.1, 0.01],
-            'solver' : ['newton-cg', 'lbfgs', 'liblinear'],
-            'max_iter' : [100, 1000,2500, 5000]
-
+            "C": [100, 10, 1.0, 0.1, 0.01],
+            "solver": ["newton-cg", "lbfgs", "liblinear"],
+            "max_iter": [100, 1000, 2500, 5000],
         }
         self._handles_missing = False
 

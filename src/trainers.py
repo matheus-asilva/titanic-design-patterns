@@ -8,7 +8,9 @@ from sklearn.metrics import accuracy_score
 
 
 class Trainer:
-    def __init__(self, model: str, handle_missing: bool = True) -> None:
+    def __init__(
+        self, model: str, handle_missing: bool = True, model_args: dict = {}
+    ) -> None:
         """Initializes a Trainer object with the given parameters.
 
         Parameters:
@@ -19,6 +21,7 @@ class Trainer:
         """
         self.model_name = model
         self._handles_missing = handle_missing
+        self.model_args = model_args
 
     def __get_model(self) -> None:
         """
@@ -41,8 +44,9 @@ class Trainer:
         model_cls = importlib.import_module(f"model.{self.model_name}")
         self.model = getattr(
             model_cls, self.model_name.title().replace("_", "")
-        )()  # noqa: E501
-
+        )(  # noqa: E501
+            self.model_args
+        )  # noqa: E501
 
     def train(self, X, y) -> None:
         """
@@ -58,17 +62,21 @@ class Trainer:
 
         if not self.model._handles_missing:
             if not self._handles_missing:
-                raise ValueError(f"{self.model_name} does not fit with missing information. Set '--handle_missing'.")
+                raise ValueError(
+                    f"{self.model_name} does not fit with missing information. Set '--handle_missing'."  # noqa: E501
+                )  # pragma: no cover
             else:
                 self.model._handles_missing = self._handles_missing
 
         if self.model._handles_missing and not self._handles_missing:
-            self.model._handles_missing = self._handles_missing
+            self.model._handles_missing = (
+                self._handles_missing
+            )  # pragma: no cover # noqa: E501
 
         if self.model._handles_missing:
             self.model.fit(X.fillna(0), y)
         else:
-            self.model.fit(X, y)
+            self.model.fit(X, y)  # pragma: no cover
 
     def predict(self, X) -> np.ndarray:
         """
@@ -84,7 +92,7 @@ class Trainer:
         """
         if self.model._handles_missing:
             return self.model.predict(X.fillna(0))
-        return self.model.predict(X)
+        return self.model.predict(X)  # pragma: no cover
 
     def optimize(self) -> None:
         """Optimizes the hyperparameters of the model."""

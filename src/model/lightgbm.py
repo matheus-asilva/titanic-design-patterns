@@ -18,16 +18,16 @@ class Lightgbm(Model):
         Returns the name of the model.
     """
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, model_args: dict = {}) -> None:
         """
         Constructs a new LightGBM object.
 
         Parameters
         ----------
-        **kwargs : dict
+        model_args : dict
             Additional keyword to the XGBClassifier constructor.
         """
-        self.model = LGBMClassifier(**kwargs)
+        self.model = LGBMClassifier(**model_args)
         self.params_grid = {
             "num_leaves": [25, 50, 75],
             "learning_rate": [0.05, 0.1, 0.2],

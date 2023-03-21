@@ -18,16 +18,16 @@ class RandomForest(Model):
         Returns the name of the model.
     """
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, model_args: dict = {}) -> None:
         """
         Constructs a new RandomForest object.
 
         Parameters
         ----------
-        **kwargs : dict
+        model_args : dict
             Additional arguments to the RandomForestClassifier constructor.
         """
-        self.model = RandomForestClassifier(**kwargs)
+        self.model = RandomForestClassifier(**model_args)
         self.params_grid = {
             "n_estimators": [100, 200, 300],
             "criterion": ["gini", "entropy"],
